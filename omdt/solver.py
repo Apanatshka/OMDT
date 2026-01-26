@@ -1,3 +1,4 @@
+import json
 import textwrap
 
 import gurobipy as gp
@@ -376,6 +377,11 @@ class OmdtSolver:
 
             # Write the whole string as a python file
             file.write(code)
+
+        with open(
+            f"{self.output_dir}policy_depth_{depth}_seed_{self.seed}.json", "w"
+        ) as file:
+            file.write(json.dumps(self.tree_policy_.to_dict()))
 
     def solve(
         self,
