@@ -1,5 +1,6 @@
 import json
 import textwrap
+from pathlib import Path
 
 import gurobipy as gp
 import numpy as np
@@ -18,7 +19,7 @@ class OmdtSolver:
         n_cpus=1,
         verbose=False,
         time_limit=None,
-        output_dir="",
+        output_dir=Path("."),
         record_progress=False,
         seed=0,
         fixed_depth=True,
@@ -350,7 +351,7 @@ class OmdtSolver:
         )
 
         with open(
-            f"{self.output_dir}policy_depth_{depth}_seed_{self.seed}.py", "w"
+            self.output_dir / f"policy_depth_{depth}_seed_{self.seed}.py", "w"
         ) as file:
             # Print information about the policy as comments
             line_width = 60
@@ -379,7 +380,7 @@ class OmdtSolver:
             file.write(code)
 
         with open(
-            f"{self.output_dir}policy_depth_{depth}_seed_{self.seed}.json", "w"
+            self.output_dir / f"policy_depth_{depth}_seed_{self.seed}.json", "w"
         ) as file:
             file.write(json.dumps(self.tree_policy_.to_dict()))
 

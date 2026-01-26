@@ -74,8 +74,8 @@ parser.add_argument(
 args = parser.parse_args()
 
 # Create an output directory if it does not yet exist
-mdp_output_dir = f"{args.output_dir}{args.env_name}/"
-Path(mdp_output_dir).mkdir(parents=True, exist_ok=True)
+mdp_output_dir = Path(args.output_dir) / args.env_name
+mdp_output_dir.mkdir(parents=True, exist_ok=True)
 
 # Generate the mdp, possibly with extra arguments
 print(f"Generating MDP for {args.env_name}...")
@@ -112,7 +112,7 @@ elif args.algorithm.lower() == "dtcontrol":
     from dtcontrol.solver import DtControlSolver
 
     solver = DtControlSolver(
-        output_dir=mdp_output_dir,
+        output_dir=str(mdp_output_dir) + "/",
         verbose=args.verbose,
     )
     method_name = "dtcontrol"
@@ -124,7 +124,7 @@ elif args.algorithm.lower() == "viper":
 
     solver = ViperSolver(
         max_depth=args.max_depth,
-        output_dir=mdp_output_dir,
+        output_dir=str(mdp_output_dir) + "/",
         verbose=args.verbose,
         random_seed=args.seed,
     )
@@ -162,7 +162,7 @@ if args.export_graphviz:
     )
     graph = pydot.graph_from_dot_data(dot_string)[0]
 
-    filename = f"{mdp_output_dir}{method_name}_visualized_policy"
+    filename = mdp_output_dir / f"{method_name}_visualized_policy"
     graph.write_png(f"{filename}.png")
     graph.write_pdf(f"{filename}.pdf")
     graph.write_dot(f"{filename}.dot")
