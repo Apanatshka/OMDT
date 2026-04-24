@@ -73,12 +73,13 @@ parser.add_argument(
 args = parser.parse_args()
 
 # Create an output directory if it does not yet exist
+mdp_output_dir = Path(args.output_dir) / args.env_name
+mdp_output_dir.mkdir(parents=True, exist_ok=True)
+
 if args.env_name == "CustomMdp":
     env_name = Path(args.mdp_file).stem
 else:
     env_name = args.env_name
-mdp_output_dir = Path(args.output_dir) / env_name
-mdp_output_dir.mkdir(parents=True, exist_ok=True)
 
 # Generate the mdp, possibly with extra arguments
 print(f"Generating MDP for {env_name}...")
