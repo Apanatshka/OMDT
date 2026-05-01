@@ -10,6 +10,7 @@ def write_as_drn(file: Path, mdp: MarkovDecisionProcess):
         f.write("@value_type: double\n")
         f.write(f"@nr_states\n{mdp.n_states_}\n")
         f.write(f"@nr_choices\n{mdp.n_states_ * mdp.n_actions_}\n")
+        f.write("@reward_model\nreward\n")
         f.write("@model\n")
 
         for state in range(mdp.n_states_):
